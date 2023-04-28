@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, ImageBackground,
+import { StyleSheet, Text, View, ImageBackground, Image,
      useWindowDimensions, FlatList, Touchable, TextInput, TouchableOpacity } from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import axios from 'axios';
@@ -23,6 +23,20 @@ setArtist("");
 setGenre("");
 setImageUri("");
 };
+
+const GridViewSelect = ({ name}) => (
+  <TouchableOpacity style={styles.gridStyle1} onPress={()=>navigation.navigate("ShowScreen")}>
+  <Text style={styles.gridText}>{name}</Text>
+  </TouchableOpacity>
+);
+
+const GridViewShow = ({ name, artist, genre, src}) => (
+  <TouchableOpacity style={styles.gridStyle} onPress={()=>alert('The price for ' + name + ' is $' + price)}>
+  <Text style={styles.TextInput}>{name}</Text>
+  <Image source={src} style={{height:150, width:150}} />
+  <Text style={styles.TextInput}>{artist}</Text>
+  </TouchableOpacity>
+);
     const AddScreen = () => (
     <View style={styles.container}>
         <ImageBackground source={require("../assets/Pineapple.png")} resizeMode='cover' 
@@ -75,15 +89,41 @@ setImageUri("");
 
     );
 
+    const genreNames = [
+      {id: 1, name: 'Rack'},
+      {id: 2, name: 'Rap'},
+      {id: 3, name: 'Country'},
+      {id: 4, name: 'Alternative'},
+      {id: 5, name: 'Pop'},
+      {id: 6, name: 'R & B'},
+    
+    ];
+    const SelectScreen=()=>(
+      <ImageBackground source={require("../assets/Pineapple.png")} resizeMode='cover' 
+      style={styles.imagebackground2} imageStyle={{opacity: 0.5}}> 
+    
+    
+     <FlatList
+        data={genreNames} //uses array Movie Items
+        renderItem={({ item }) => <GridViewSelect name={item.name}/>} //takes data array and passes it to gridview function
+        keyExtractor={item => item.name}
+        numColumns={2}// defines number of columns
+        key={item => item.name} //id
+      />
+    
+  </ImageBackground>
+    );
+
     const layout = useWindowDimensions();
     const [index, setIndex] = useState(0);
     const [routes] = useState([ //creates tabs with Titles and keys
     { key: 'first', title: 'Add' },
+    {key: 'second', title: 'Select'},
   ]);
   
   const renderScene = SceneMap({ //renders the routes defined above
     first: AddScreen,
-    
+    second: SelectScreen,
   });
 
   return (
@@ -113,6 +153,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  imagebackground2: {
+    flex: 1, 
+  },
   inputView: { //The view for the containers of the email and password txts
     backgroundColor: "#05352c",
     borderRadius: 30,
@@ -128,6 +171,31 @@ const styles = StyleSheet.create({
     padding: 10,
     marginLeft: 20,
     color: "#c6af4f",
+  },
+  gridText: {
+    color: "#c6af4f"
+  }, 
+
+  gridContainer: {
+    flex: 1, 
+    backgroundColor: "#fff", 
+
+  },
+  gridStyle1: {
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 200,
+    margin: 3,
+    backgroundColor: '#05352c',
+  },
+  gridStyle2: {
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 250,
+    margin: 3,
+    backgroundColor: '#05352c',
   },
 
 });

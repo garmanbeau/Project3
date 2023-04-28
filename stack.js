@@ -12,7 +12,7 @@ export default function App() {
   return (
     <NavigationContainer>
         <Stack.Navigator>
-        <Stack.Screen name="MainScreen" component={MainScreen}/>
+        <Stack.Screen name="Pineapple Music" component={MainScreen}/>
         <Stack.Screen name="ShowScreen" component={ShowScreen}/>  
         </Stack.Navigator>
     </NavigationContainer>
